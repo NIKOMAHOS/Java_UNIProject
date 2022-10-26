@@ -20,19 +20,19 @@ public class BankProduct{
     }
     
     // Other Methods
-    public static void displayBankProducts(HashMap<String, BankProduct> bankProductsList){
+    public static void displayBankProducts(HashMap<String, Object> bankProducts){
         System.out.println("ALL BANK PRODUCTS: ");
-        for (String key : bankProductsList.keySet()) {
-            System.out.println(bankProductsList.get(key));
+        for (String key : bankProducts.keySet()) {
+            System.out.println(bankProducts.get(key));
             System.out.println();
         }
     }
     
-    public static BankProduct lookupBankProduct(String key, HashMap<String, BankProduct> bankProductsList){
-        for(String k: bankProductsList.keySet()){
-            if (bankProductsList.containsKey(key)){
-                if (key.equals(bankProductsList.get(k).getKey())){
-                    return bankProductsList.get(key);
+    public static BankProduct lookupBankProduct(String key, HashMap<String, Object> bankProducts){
+        for(String k: bankProducts.keySet()){
+            if (bankProducts.containsKey(key)){
+                if (key.equals(((BankProduct) bankProducts.get(k)).getKey())){
+                    return (BankProduct) bankProducts.get(key);
                 }
             }else{
                 continue;
@@ -73,5 +73,9 @@ public class BankProduct{
 
     public Object getKey() {
         return -1;
+    }
+    
+    public void setKey(String NewKey) {
+        ;
     }
 }

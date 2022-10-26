@@ -6,7 +6,7 @@ public class CreditCard extends BankProduct {
     private static double MAX_AMOUNT = 3000;
     private static double YEARLY_MAX_AMOUNT = 25000;
     protected double total;
-    private static int counter = 0;
+    protected static int counter = 0;
     private String key = "C";
     private static final DecimalFormat df = new DecimalFormat("0.00");
     
@@ -27,10 +27,10 @@ public class CreditCard extends BankProduct {
     }
     
     // Other Methods
-    public void doTransaction(CreditCard this, double amount, String reason, HashMap<String, Transaction> transactionsList){
+    public void doTransaction(CreditCard this, double amount, String reason, HashMap<String, Object> transactions){
         try{
             Transaction tran = new Transaction(this, amount, reason); // Checking if the transaction is valid inside of the constructor of Transaction Object
-            transactionsList.put(tran.getKey(), tran);
+            transactions.put(tran.getKey(), tran);
             }catch(NullPointerException e){
                 System.out.println("The credit card key you have entered does not match any of the keys of the credit cards in the list.");
             }
@@ -44,32 +44,27 @@ public class CreditCard extends BankProduct {
         }
     }
     
-    public static void displayCreditCards(HashMap<String, BankProduct> bankroductsList){
+    public static void displayCreditCards(HashMap<String, Object> bankProducts){
         System.out.println("ALL CREDIT CARDS: ");
-        for(String key : bankroductsList.keySet()){
-            if (bankroductsList.get(key) instanceof CreditCard){
-                System.out.println(bankroductsList.get(key));
+        for(String key : bankProducts.keySet()){
+            if (bankProducts.get(key) instanceof CreditCard){
+                System.out.println(bankProducts.get(key));
                 System.out.println();
             }
         }
     }
     
-    public CreditCard lookUpSoldCreditCard(CreditCard this, SalesPerson sp,HashMap<String, Sale> salesList){
-        for(Sale s: salesList.values()){
+    public CreditCard lookUpSoldCreditCard(CreditCard this, SalesPerson sp,HashMap<String, Object> sales){
+        for(Object s: sales.values()){
             try{ 
-                if (s.getSalesPerson().getKey().equals(sp.getKey()) && s.getBankProduct().getKey().equals(this.getKey())){
-                    return (CreditCard) salesList.get(s.getKey()).getBankProduct();
+                if (((Sale) s).getSalesPerson().getKey().equals(sp.getKey()) && ((Sale) s).getBankProduct().getKey().equals(this.getKey())){
+                    return (CreditCard) ((Sale) sales.get(((Sale) s).getKey())).getBankProduct();
                 }
             }catch(NullPointerException e){
                 continue;
             }
         }
         return new CreditCard();
-    }
-    
-    @Override
-    public String getKey(){
-        return this.key;
     }
     
     // Setters & Getters
@@ -88,6 +83,20 @@ public class CreditCard extends BankProduct {
     
     public double getTotal() {
         return total;
+    }
+    
+    public void setTotal(double newTotal) {
+        this.total = newTotal;
+    }
+    
+    @Override
+    public void setKey(String newKey) {
+        this.key = newKey;
+    }
+    
+    @Override
+    public String getKey(){
+        return this.key;
     }
 
     @Override

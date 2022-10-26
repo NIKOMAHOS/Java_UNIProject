@@ -15,8 +15,9 @@ public class Transaction {
     public Transaction() {
         this.cc = new CreditCard();
         this.cardCode = cc.getBankProductCode();
-        this.amount = 0;
         this.reason = "";
+        this.amount = 0;
+        this.cc.total += amount;//
         
     }
     
@@ -82,14 +83,6 @@ public class Transaction {
         }
         return new Transaction();
     }
-    
-    public CreditCard getCreditCard() {
-        return cc;
-    }
-    
-    public String getKey() {
-        return this.key;
-    }
         
     // (Setters &) Getters
 
@@ -100,7 +93,11 @@ public class Transaction {
     public void setAmount(double newAmount) {
         this.amount = newAmount;
     }
-
+    
+    public void setCardCode(String newCode) {
+        this.cardCode = newCode;
+    }
+    
     public String getCardCode(){
         return this.cardCode;
     }
@@ -112,6 +109,18 @@ public class Transaction {
     public void setReason(String newReason) {
         this.reason = newReason;
     }
+    
+    public CreditCard getCreditCard() {
+        return cc;
+    }
+    
+    public String getKey() {
+        return this.key;
+    }
+    
+    public void setKey(String newKey) {
+        this.key = newKey;
+    }
 
     // toString()
     @Override
@@ -119,10 +128,10 @@ public class Transaction {
         return "Transaction: " + "\n" +
                 " Key: " + getKey() + "\n" +
                 " Credit Card Code: " + cardCode + "\n" +
-                " Amount: " + df.format(getAmount()) + "\n" +
+                " Value: " + df.format(getAmount()) + "\n" +
                 " Reason: " + reason + "\n" +
                 " Interest Rate: " + df.format(getCreditCard().getCommisionRate()) + "%" + "\n" +
-                " Total Amount Spent: " + df.format(getCreditCard().getTotal());
+                " Total Amount Spent with this card: " + df.format(getCreditCard().getTotal());
     }
     
 }
