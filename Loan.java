@@ -5,9 +5,14 @@ import java.util.HashMap;
 public class Loan extends BankProduct {
     private static double INTEREST_RATE = 0.015;
     private double amount;
-    private static int counter = 0;
+    protected static int counter = 0;
     private String key = "L";
     private static final DecimalFormat df = new DecimalFormat("0.00");
+    
+    Loan (){
+        super();
+        this.amount = 0.0;
+    }
     
     Loan(String code, String num, String afm, double amount){
         super(code, num, afm);
@@ -35,13 +40,18 @@ public class Loan extends BankProduct {
     public String getKey(){
         return this.key;
     }
+    
+    @Override
+    public void setKey(String newKey) {
+        this.key = newKey;
+    }
 
     //Other Methods
-    public static void displayLoans(HashMap<String, BankProduct> bankProductsList){
+    public static void displayLoans(HashMap<String, Object> bankProducts){
         System.out.println("ALL LOANS: ");
-        for(String key : bankProductsList.keySet()){
-            if (bankProductsList.get(key) instanceof Loan){
-                System.out.println(bankProductsList.get(key));
+        for(String key : bankProducts.keySet()){
+            if (bankProducts.get(key) instanceof Loan){
+                System.out.println(bankProducts.get(key));
                 System.out.println();
             }
         }
